@@ -198,6 +198,20 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
     }
     
+    //Move the player back to the previous room.
+    // If there is no room, prints the player can't go back any further
+    // updates the previous room so the player can go back and forth 
+    private void goBack() {
+        if (previousRoom == null) {
+            System.out.println("You can't go back any further!");
+        } else {
+            Room temp = currentRoom; // store current
+            currentRoom = previousRoom; // go back
+            previousRoom = temp; // update previous room for next back
+            System.out.println(currentRoom.getLongDescription());
+        }
+    }
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.
