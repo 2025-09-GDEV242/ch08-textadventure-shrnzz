@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -20,7 +21,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    private Item item; 
+    private ArrayList<Item> items; // to store many items in a room 
     
     /**
      * Create a room described "description". Initially, it has
@@ -32,6 +33,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        items = new ArrayList<>();
     }
 
     /**
@@ -50,9 +52,19 @@ public class Room
      */
     public void addItem(Item item)
     {
-        this.item = item;
+        items.add(item);
     }
-
+    
+    /**
+     * Get a list of all items in this room.
+     *
+     * @return A list of items.
+     */
+    public ArrayList<Item> getItems()
+    {
+        return items;
+    }
+    
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
@@ -70,9 +82,8 @@ public class Room
      */
     public String getLongDescription()
     {
-        String itemString = (item == null) ? "No items here." : "Item: " + item.getLongDescription();
-        
-        return "You are " + description + ".\n" + getExitString() + "\n" + itemString;
+        return "You are " + description + ".\n" + getExitString() + "\n" +
+        getItemString;
     }
 
     /**
