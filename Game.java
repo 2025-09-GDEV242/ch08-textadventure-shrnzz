@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -11,15 +13,17 @@
  *  rooms, creates the parser and starts the game.  It also evaluates and
  *  executes the commands that the parser returns.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author  Sahar Naz
+ * @version 2025.11.16
  */
 
 public class Game 
 {
     private Parser parser;
     private Room currentRoom;
-        
+    private Room previousRoom; // stores the last room visited
+    private Player player;
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -27,6 +31,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        player = new Player(currentRoom); // starts the player in the starting room
     }
 
     /**
@@ -42,7 +47,24 @@ public class Game
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
-        
+    
+        // add multiple items for each room 
+        outside.addItem(new Item("rock", 2));
+        outside.addItem(new Item("leaf", 1));
+    
+        theater.addItem(new Item("projector", 10));
+        theater.addItem(new Item("chalk", 1));
+    
+        pub.addItem(new Item("beer", 1));
+        pub.addItem(new Item("pretzel", 1));
+    
+        lab.addItem(new Item("laptop", 5));
+        lab.addItem(new Item("keyboard", 2));
+        lab.addItem(new Item("mouse", 1));
+    
+        office.addItem(new Item("stapler", 1));
+        office.addItem(new Item("notebook", 2));
+
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
@@ -114,7 +136,22 @@ public class Game
             case GO:
                 goRoom(command);
                 break;
-
+                
+            //added case for look
+            case LOOK:
+                look();
+                break;
+                
+            // added case for take 
+            case TAKE:
+                takeItem(command);
+                break;
+                
+            //added case to go back
+            case BACK:
+                goBack();
+                break;
+                
             case QUIT:
                 wantToQuit = quit(command);
                 break;
@@ -152,18 +189,60 @@ public class Game
 
         String direction = command.getSecondWord();
 
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        // get exit from players current room 
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            currentRoom = nextRoom;
+            player.setCurrentRoom(nextRoom); // move player to next room
+            System.out.println(player.getCurrentRoom().getLongDescription());
+        }
+    }
+    
+    // Print thelong description of the current room
+    private void look(){
+        System.out.println(currentRoom.getLongDescription());
+    }
+    
+    /**
+     * Player picks up an item from the current room.
+     * @param command The take command with the item name.
+     */
+    private void takeItem(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+    
+        String itemName = command.getSecondWord();
+        ArrayList<Item> items = player.getCurrentRoom().getItems(); // get all items in room
+            
+        for(Item item : items) {
+            if(item.getDescription().equalsIgnoreCase(itemName)) {
+                player.pickUp(item);   // add to player's inventory
+                items.remove(item);    // remove from room
+                System.out.println("You picked up the " + item.getDescription());
+                return;
+            }
+            System.out.println("There is no " + itemName + " here.");
+        }
+    }
+    //Move the player back to the previous room.
+    // If there is no room, prints the player can't go back any further
+    // updates the previous room so the player can go back and forth 
+    private void goBack() {
+        if (previousRoom == null) {
+            System.out.println("You can't go back any further!");
+        } else {
+            Room temp = currentRoom; // store current
+            currentRoom = previousRoom; // go back
+            previousRoom = temp; // update previous room for next back
             System.out.println(currentRoom.getLongDescription());
         }
     }
-
+    
     /** 
      * "Quit" was entered. Check the rest of the command to see
      * whether we really quit the game.

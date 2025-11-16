@@ -1,6 +1,7 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 /**
  * Class Room - a room in an adventure game.
@@ -12,15 +13,16 @@ import java.util.Iterator;
  * connected to other rooms via exits.  For each existing exit, the room 
  * stores a reference to the neighboring room.
  * 
- * @author  Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author  Sahar Naz
+ * @version 2025.11.16
  */
 
 public class Room 
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-
+    private ArrayList<Item> items; // to store many items in a room 
+    
     /**
      * Create a room described "description". Initially, it has
      * no exits. "description" is something like "a kitchen" or
@@ -31,6 +33,7 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        items = new ArrayList<>();
     }
 
     /**
@@ -42,7 +45,26 @@ public class Room
     {
         exits.put(direction, neighbor);
     }
-
+       
+    /**
+     * Place an item into this room.
+     * @param item The item to add.
+     */
+    public void addItem(Item item)
+    {
+        items.add(item);
+    }
+    
+    /**
+     * Get a list of all items in this room.
+     *
+     * @return A list of items.
+     */
+    public ArrayList<Item> getItems()
+    {
+        return items;
+    }
+    
     /**
      * @return The short description of the room
      * (the one that was defined in the constructor).
@@ -60,7 +82,32 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        return "You are " + description + ".\n" + getExitString() + "\n" +
+        getItemString();
+    }
+    
+    /**
+     * Return a string describing all items in the room.
+     *
+     * @return A formatted list of items, or a message if none exist.
+     */
+    private String getItemString()
+    {
+        if (items.isEmpty()) {
+            return "No items here.";
+        }
+    
+        StringBuilder sb = new StringBuilder("Items: ");
+        
+        for (Item item : items) {
+            sb.append(item.getDescription())
+              .append(" (weight: ")
+              .append(item.getWeight())
+              .append("), ");
+        }
+    
+        // Remove last comma + space
+        return sb.substring(0, sb.length() - 2);
     }
 
     /**

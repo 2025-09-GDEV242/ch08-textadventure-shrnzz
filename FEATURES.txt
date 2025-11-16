@@ -1,0 +1,22 @@
+A LEVEL IMPLEMENTATIONS:
+- Game class with main() method for running outside BlueJ
+- Parser class for interpreting user input
+- Room class with multiple exits
+- Command, CommandWord, and CommandWords classes
+- Basic commands: GO, QUIT, HELP
+- Look command to describe the current room
+- Player class to track the player’s current room
+- Rooms can hold items
+- Player can pick up a single item
+- Back command (one-step back)
+- Javadoc comments for all classes and methods
+
+FULL IMPLEMENTATION:
+- Rooms can hold multiple items
+- Player can carry multiple items (full inventory)
+- Multi-step back command using a stack
+- Take command allows picking up multiple items
+- Inventory command to list all items player is carrying
+- Enhanced room description shows all items in the room
+- Meaningful Javadoc for Player, Item, and updated Game methods
+- Game map contains more than 8 rooms
