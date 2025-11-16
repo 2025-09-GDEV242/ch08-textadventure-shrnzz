@@ -83,7 +83,31 @@ public class Room
     public String getLongDescription()
     {
         return "You are " + description + ".\n" + getExitString() + "\n" +
-        getItemString;
+        getItemString();
+    }
+    
+    /**
+     * Return a string describing all items in the room.
+     *
+     * @return A formatted list of items, or a message if none exist.
+     */
+    private String getItemString()
+    {
+        if (items.isEmpty()) {
+            return "No items here.";
+        }
+    
+        StringBuilder sb = new StringBuilder("Items: ");
+        
+        for (Item item : items) {
+            sb.append(item.getDescription())
+              .append(" (weight: ")
+              .append(item.getWeight())
+              .append("), ");
+        }
+    
+        // Remove last comma + space
+        return sb.substring(0, sb.length() - 2);
     }
 
     /**
