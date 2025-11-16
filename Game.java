@@ -43,6 +43,23 @@ public class Game
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
         
+        // add multiple items for each room 
+        outside.addItem(new Item("rock", 2));
+        outside.addItem(new Item("leaf", 1));
+    
+        theater.addItem(new Item("projector", 10));
+        theater.addItem(new Item("chalk", 1));
+    
+        pub.addItem(new Item("beer", 1));
+        pub.addItem(new Item("pretzel", 1));
+    
+        lab.addItem(new Item("laptop", 5));
+        lab.addItem(new Item("keyboard", 2));
+        lab.addItem(new Item("mouse", 1));
+    
+        office.addItem(new Item("stapler", 1));
+        office.addItem(new Item("notebook", 2));
+
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
