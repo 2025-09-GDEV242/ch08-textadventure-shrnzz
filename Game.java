@@ -20,6 +20,7 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Room previousRoom; // stores the last room visited
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
@@ -28,6 +29,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        player = new Player(currentRoom); // starts the player in the starting room
     }
 
     /**
@@ -43,7 +45,7 @@ public class Game
         pub = new Room("in the campus pub");
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
-        
+    
         // add multiple items for each room 
         outside.addItem(new Item("rock", 2));
         outside.addItem(new Item("leaf", 1));
