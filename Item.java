@@ -14,7 +14,9 @@ public class Item
      * Creates an item with the given description and weight.
      * @param description Description of the item.
      * @param weight The weight of the item.
-     * @return the desrciption, weight and long description of item.
+     * @return desrciption The description of the item 
+     * @return weight The weight of the item 
+     * @return getLongDescription The long description of the item 
      */
     public Item(String description, int weight)
     {
