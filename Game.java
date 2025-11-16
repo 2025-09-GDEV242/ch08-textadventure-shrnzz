@@ -217,23 +217,17 @@ public class Game
         }
     
         String itemName = command.getSecondWord();
-        ArrayList<Item> items = currentRoom.getItems(); // get all items in room
-    
+        ArrayList<Item> items = player.getCurrentRoom().getItems(); // get all items in room
+            
         for(Item item : items) {
             if(item.getDescription().equalsIgnoreCase(itemName)) {
-                if(player.hasItem()) {
-                    System.out.println("You are already carrying an item!");
-                    return;
-                } else {
-                    player.pickUp(item);
-                    items.remove(item);
-                    System.out.println("You picked up the " + item.getDescription());
-                    return;
-                }
+                player.pickUp(item);   // add to player's inventory
+                items.remove(item);    // remove from room
+                System.out.println("You picked up the " + item.getDescription());
+                return;
             }
+            System.out.println("There is no " + itemName + " here.");
         }
-    
-        System.out.println("There is no " + itemName + " here.");
     }
     //Move the player back to the previous room.
     // If there is no room, prints the player can't go back any further
