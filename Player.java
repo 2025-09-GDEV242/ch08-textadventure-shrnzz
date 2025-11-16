@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Player class for the text adventure game. 
  * Creates a player that can travel to different rooms and have items in their
@@ -9,7 +11,7 @@
 public class Player {
 
     private Room currentRoom; // the room the player is currently in
-    private Item inventory;   // the item the player is carrying (can be null)
+    private ArrayList<Item> inventory;   // the item the player is carrying (can be null)
 
     /**
      * Constructor for Player.
@@ -17,7 +19,7 @@ public class Player {
      */
     public Player(Room startRoom) {
         currentRoom = startRoom;
-        inventory = null; // player starts with no item
+        inventory = new ArrayList<>();
     }
 
     /**
@@ -37,13 +39,13 @@ public class Player {
     }
 
     /**
-     * Get the item the player is carrying.
-     * @return The item, or null if none.
+     * Get the list of items the player is carrying.
+     * @return The player's inventory.
      */
-    public Item getInventory() {
+    public ArrayList<Item> getInventory() {
         return inventory;
     }
-
+    
     /**
      * Pick up an item.
      * @param item The item to pick up.
