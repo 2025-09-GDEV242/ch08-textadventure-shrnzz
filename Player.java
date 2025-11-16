@@ -51,24 +51,24 @@ public class Player {
      * @param item The item to pick up.
      */
     public void pickUp(Item item) {
-        inventory = item;
+        inventory.add(item);
     }
 
-    /**
-     * Drop the item the player is carrying.
-     * @return The item dropped, or null if none.
+     /**
+     * Drop an item from the inventory.
+     * @param item The item to drop.
+     * @return true if item was dropped, false if it was not found.
      */
-    public Item dropItem() {
-        Item temp = inventory;
-        inventory = null;
-        return temp;
+    public boolean dropItem(Item item) {
+        return inventory.remove(item);
     }
 
-    /**
-     * Check if the player has an item.
-     * @return true if the player has an item, false otherwise.
+     /**
+     * Check if the player has a specific item.
+     * @param item The item to check.
+     * @return true if the player has the item, false otherwise.
      */
-    public boolean hasItem() {
-        return inventory != null;
+    public boolean hasItem(Item item) {
+        return inventory.contains(item);
     }
 }
