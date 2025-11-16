@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -204,6 +206,35 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
     }
     
+    /**
+     * Player picks up an item from the current room.
+     * @param command The take command with the item name.
+     */
+    private void takeItem(Command command) {
+        if(!command.hasSecondWord()) {
+            System.out.println("Take what?");
+            return;
+        }
+    
+        String itemName = command.getSecondWord();
+        ArrayList<Item> items = currentRoom.getItems(); // get all items in room
+    
+        for(Item item : items) {
+            if(item.getDescription().equalsIgnoreCase(itemName)) {
+                if(player.hasItem()) {
+                    System.out.println("You are already carrying an item!");
+                    return;
+                } else {
+                    player.pickUp(item);
+                    items.remove(item);
+                    System.out.println("You picked up the " + item.getDescription());
+                    return;
+                }
+            }
+        }
+    
+        System.out.println("There is no " + itemName + " here.");
+    }
     //Move the player back to the previous room.
     // If there is no room, prints the player can't go back any further
     // updates the previous room so the player can go back and forth 
