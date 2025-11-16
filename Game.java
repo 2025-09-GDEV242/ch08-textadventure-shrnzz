@@ -19,7 +19,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-        
+    private Room previousRoom; // stores the last room visited
+
     /**
      * Create the game and initialise its internal map.
      */
@@ -131,9 +132,15 @@ public class Game
             case GO:
                 goRoom(command);
                 break;
+                
             //added case for look
             case LOOK:
                 look();
+                break;
+                
+            //added case to go back
+            case BACK:
+                goBack();
                 break;
                 
             case QUIT:
@@ -180,6 +187,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            previousRoom = currentRoom; // store the current room before moving
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }
