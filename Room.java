@@ -70,7 +70,9 @@ public class Room
      */
     public String getLongDescription()
     {
-        return "You are " + description + ".\n" + getExitString();
+        String itemString = (item == null) ? "No items here." : "Item: " + item.getLongDescription();
+        
+        return "You are " + description + ".\n" + getExitString() + "\n" + itemString;
     }
 
     /**
