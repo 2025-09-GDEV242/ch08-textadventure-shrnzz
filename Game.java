@@ -140,6 +140,11 @@ public class Game
                 look();
                 break;
                 
+            // added case for take 
+            case TAKE:
+                takeItem(command);
+                break;
+                
             //added case to go back
             case BACK:
                 goBack();
@@ -182,16 +187,15 @@ public class Game
 
         String direction = command.getSecondWord();
 
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        // get exit from players current room 
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
-            previousRoom = currentRoom; // store the current room before moving
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            player.setCurrentRoom(nextRoom); // move player to next room
+            System.out.println(player.getCurrentRoom().getLongDescription());
         }
     }
     
